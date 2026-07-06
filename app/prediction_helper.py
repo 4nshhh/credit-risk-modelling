@@ -2,9 +2,10 @@ import pandas as pd
 import numpy as np
 import joblib
 from sklearn.preprocessing import MinMaxScaler
+from pathlib import Path
 
-# Path to the saved model and it's components
-MODEL_PATH = 'artifacts/model_data.joblib'
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "artifacts" / "model_data.joblib"
 
 # Load the model and its components
 model_data = joblib.load(MODEL_PATH)
