@@ -170,16 +170,20 @@ Borrowers with:
 credit-risk-modelling/
 
 ├── app/
+│   ├── artifacts/
+│   │   └── model_data.joblib
+│   │
 │   ├── main.py
-│   ├── prediction_helper.py
+│   └── prediction_helper.py
 │
-├── artifacts/
-│   └── model_data.joblib
+├── assets/
+│   └── demo.gif
 │
 ├── notebooks/
+│   └── credit_risk_model.ipynb
 │
 ├── requirements.txt
-│
+├── LICENSE
 └── README.md
 ```
 
@@ -208,7 +212,7 @@ pip install -r requirements.txt
 ## Start the Application
 
 ```bash
-streamlit run app/main.py
+streamlit run main.py
 ```
 
 ---
