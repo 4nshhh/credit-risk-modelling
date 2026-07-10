@@ -99,6 +99,9 @@ with row4[2]:
         options=["Unsecured", "Secured"]
     )
 
+# Calculate credit_utilization_per_income
+credit_utilization_per_income = credit_utilization_ratio/loan_to_income
+
 if st.button("Calculate Risk", type="primary"):
 
     probability, credit_score, rating = predict(
@@ -113,7 +116,8 @@ if st.button("Calculate Risk", type="primary"):
         number_of_open_accounts,
         residence_type,
         loan_purpose,
-        loan_type
+        loan_type,
+        credit_utilization_per_income
     )
 
     with st.container(border=True):

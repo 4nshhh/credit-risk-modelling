@@ -1,7 +1,5 @@
 import pandas as pd
-import numpy as np
 import joblib
-from sklearn.preprocessing import MinMaxScaler
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -15,7 +13,7 @@ scaler = model_data['scaler']
 cols_to_scale = model_data['cols_to_scale']
 
 
-def prepare_df(age, income, loan_amount, loan_to_income,loan_tenure_months, avg_dpd_per_delinquency, delinquency_ratio, credit_utilization_ratio, number_of_open_accounts, residence_type, loan_purpose, loan_type):
+def prepare_df(age, income, loan_amount, loan_to_income,loan_tenure_months, avg_dpd_per_delinquency, delinquency_ratio, credit_utilization_ratio, number_of_open_accounts, residence_type, loan_purpose, loan_type, credit_utilization_per_income):
 
     # Creating Dictionary in same format as model expects
     input_dict = {
@@ -26,6 +24,7 @@ def prepare_df(age, income, loan_amount, loan_to_income,loan_tenure_months, avg_
         'loan_to_income': loan_to_income,
         'delinquency_ratio': delinquency_ratio,
         'avg_dpd_per_delinquency': avg_dpd_per_delinquency,
+        'credit_utilization_per_income': credit_utilization_per_income,
 
         'residence_type_Owned': 1 if residence_type == 'Owned' else 0,
         'residence_type_Rented': 1 if residence_type == 'Rented' else 0,
@@ -88,10 +87,10 @@ def calculate_credit_score(input_df, base_score=300, scale_length=600):
 
     return default_probability, credit_score, rating
 
-def predict(age, income, loan_amount, loan_to_income,loan_tenure_months, avg_dpd_per_delinquency, delinquency_ratio, credit_utilization_ratio, number_of_open_accounts, residence_type, loan_purpose, loan_type):
+def predict(age, income, loan_amount, loan_to_income,loan_tenure_months, avg_dpd_per_delinquency, delinquency_ratio, credit_utilization_ratio, number_of_open_accounts, residence_type, loan_purpose, loan_type, credit_utilization_per_income):
 
     # This function does all the preprocessing and returns the dataframe
-    input_df = prepare_df(age, income, loan_amount, loan_to_income,loan_tenure_months, avg_dpd_per_delinquency, delinquency_ratio, credit_utilization_ratio, number_of_open_accounts, residence_type, loan_purpose, loan_type)
+    input_df = prepare_df(age, income, loan_amount, loan_to_income,loan_tenure_months, avg_dpd_per_delinquency, delinquency_ratio, credit_utilization_ratio, number_of_open_accounts, residence_type, loan_purpose, loan_type, credit_utilization_per_income)
 
     probability, credit_score, rating = calculate_credit_score(input_df)
 
