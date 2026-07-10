@@ -17,11 +17,36 @@ An end-to-end Machine Learning application that predicts **borrower default prob
 ![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-red?logo=streamlit)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+---
+
+## 📚 Table of Contents
+
+- [📌 Project Overview](#-project-overview)
+- [✨ Features](#-features)
+- [🖥️ Application Preview](#️-application-preview)
+- [⚙️ Machine Learning Pipeline](#️-machine-learning-pipeline)
+- [🧠 Feature Engineering](#-feature-engineering)
+- [🤖 Model Training](#-model-training)
+- [📈 Model Performance](#-model-performance)
+- [📈 Credit Score Generation](#-credit-score-generation)
+- [🔍 Model Explainability (SHAP)](#-model-explainability-shap)
+- [📊 Borrower Risk Categories](#-borrower-risk-categories)
+- [🛠️ Technologies Used](#️-technologies-used)
+- [📂 Project Structure](#-project-structure)
+- [🚀 Running the Project](#-running-the-project)
+- [💡 Skills Demonstrated](#-key-learnings)
+- [🔮 Future Improvements](#-future-improvements)
+- [👨‍💻 Author](#-author)
+
+---
+
 # 📌 Project Overview
 
 Credit risk assessment is a critical task in the financial industry, helping lending institutions estimate the likelihood that a borrower will default on a loan.
 
 This project builds a complete Machine Learning pipeline that predicts the probability of borrower default and converts that probability into an interpretable credit score ranging from **300–900**.
+
+Multiple machine learning models, including **Logistic Regression** and **XGBoost**, were evaluated during development. Logistic Regression was selected as the final deployed model due to its strong predictive performance, probability estimation capabilities, and interpretability for credit risk assessment.
 
 The application enables users to:
 
@@ -34,14 +59,12 @@ The application enables users to:
 
 # ✨ Features
 
-- End-to-end Machine Learning workflow
-- Data preprocessing and feature engineering
-- Logistic Regression classification model
-- Hyperparameter optimization using Optuna
-- Probability-based credit score generation
-- Borrower risk categorization
-- Interactive Streamlit web application
-- Responsive and recruiter-friendly user interface
+- End-to-end ML pipeline
+- Advanced feature engineering
+- Hyperparameter optimization
+- Explainable AI using SHAP
+- Probability-based credit scoring
+- Interactive Streamlit application
 
 ---
 
@@ -101,11 +124,29 @@ The preprocessing pipeline ensures that incoming user inputs are transformed int
 
 # 🤖 Model Training
 
-The final model uses **Logistic Regression**, a widely adopted algorithm in credit risk modelling due to its interpretability and probability estimation capabilities.
+Multiple machine learning algorithms were evaluated during experimentation, including **Logistic Regression** and **XGBoost**.
 
-The model predicts the probability that a borrower will default.
+The final deployed model uses **Logistic Regression**, a widely adopted algorithm in credit risk modelling due to its interpretability, probability estimation capabilities, and strong predictive performance on this dataset.
 
-Hyperparameters were optimized using **Optuna** to improve predictive performance.
+Hyperparameters were optimized using **Optuna** to maximize ROC-AUC while maintaining a robust and interpretable model.
+
+---
+
+# 📈 Model Performance
+
+The final Logistic Regression model was evaluated on a held-out test dataset after hyperparameter optimization.
+
+| Metric |    Score |
+|---------|---------:|
+| ROC-AUC | **0.98** |
+| Accuracy |  **93%** |
+| Precision (Default) |  **56%** |
+| Recall (Default) |  **95%** |
+| F1-Score (Default) | **0.71** |
+
+The model demonstrated strong discriminative performance while maintaining interpretability, making it well-suited for probability-based credit risk assessment.
+
+From a business perspective, **high recall is more critical than precision** in credit risk prediction, as failing to identify an actual defaulter can result in significant financial losses for lenders. With a **95% recall** on the default class, the model successfully identifies most high-risk borrowers while achieving an excellent **ROC-AUC of 0.98** and **93% overall accuracy**.
 
 ---
 
@@ -138,6 +179,36 @@ Borrowers with:
 
 ---
 
+## 🔍 Model Explainability (SHAP)
+
+To improve model transparency, SHAP (SHapley Additive exPlanations) was used to interpret feature contributions.
+
+### SHAP Summary Plot
+
+<p align="center">
+    <img src="assets/shap_summary.png" width="70%">
+</p>
+
+The summary plot highlights the most influential features affecting borrower default predictions across the entire dataset. It shows both feature importance and whether high or low feature values increase or decrease the predicted default probability.
+
+### SHAP Dependence Plot
+
+<p align="center">
+    <img src="assets/shap_dependence.png" width="50%">
+</p>
+
+The dependence plot illustrates how changes in **credit_utilization_ratio** influence the model's prediction while revealing interactions with other features.
+
+### SHAP Force Plot
+
+<p align="center">
+    <img src="assets/shap_force.png" width="70%">
+</p>
+
+The force plot explains an individual prediction by showing which borrower characteristics push the prediction toward a higher or lower probability of default.
+
+---
+
 # 📊 Borrower Risk Categories
 
 | Credit Score | Rating |
@@ -156,9 +227,11 @@ Borrowers with:
 | Python | Core programming language |
 | Pandas | Data manipulation |
 | NumPy | Numerical computations |
-| Scikit-learn | Machine Learning |
-| Logistic Regression | Classification model |
+| Scikit-learn | Machine Learning pipeline |
+| Logistic Regression | Final classification model |
+| XGBoost | Model experimentation and comparison |
 | Optuna | Hyperparameter optimization |
+| SHAP | Model explainability |
 | Joblib | Model serialization |
 | Streamlit | Interactive web application |
 
@@ -177,8 +250,11 @@ credit-risk-modelling/
 │   └── prediction_helper.py
 │
 ├── assets/
-│   └── demo.gif
-│
+│   ├── demo.gif
+│   ├── shap_summary.png
+│   ├── shap_dependence.png
+│   └── shap_force.png
+│ 
 ├── notebooks/
 │   └── credit_risk_model.ipynb
 │
@@ -212,43 +288,33 @@ pip install -r requirements.txt
 ## Start the Application
 
 ```bash
-streamlit run main.py
+streamlit run app/main.py
 ```
 
 ---
 
-# 🎥 Application Preview
 
-<!-- Add your GIF here -->
-
-<p align="center">
-  <img src="images/demo.gif" alt="Application Demo" width="100%">
-</p>
-
----
-
-# 💡 Skills Demonstrated
+# 💡 Key Learnings
 
 This project demonstrates practical experience with:
 
 - Machine Learning Classification
 - Feature Engineering
 - Credit Risk Modelling
-- Data Preprocessing
-- Probability Estimation
 - Hyperparameter Optimization
+- Explainable AI (SHAP)
+- Model Evaluation
 - Model Deployment
 
 ---
 
 # 🔮 Future Improvements
 
-- Incorporate advanced ensemble models such as XGBoost and LightGBM
-- Add SHAP-based model explainability
-- Integrate real-world credit bureau features
-- Support batch prediction using CSV uploads
-- Deploy using Docker and cloud infrastructure
-
+- Train and benchmark LightGBM and CatBoost models
+- Support batch prediction through CSV uploads
+- Integrate Docker for containerized deployment
+- Deploy using Docker on AWS/GCP
+- Add model monitoring and performance drift detection
 ---
 
 # 👨‍💻 Author
@@ -266,6 +332,4 @@ This project demonstrates practical experience with:
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License.
+⭐ If you found this project interesting, feel free to explore the repository, try the live demo, or connect with me on LinkedIn.
